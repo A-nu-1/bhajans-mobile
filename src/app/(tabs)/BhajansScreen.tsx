@@ -12,6 +12,7 @@ import { Colors } from "@/constants/theme";
 
 export default function BhajansScreen() {
     const [bhajans, setBhajans] = useState<Bhajan[]>([]);
+    const [allBhajans, setAllBhajans] = useState<Bhajan[]>([]);
     const [categories, setCategories] = useState<Category[]>([]);
     const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
 
@@ -27,6 +28,7 @@ export default function BhajansScreen() {
     async function loadInitial() {
         setLoading(true);
         const data = await getBhajans();
+        setAllBhajans(data);
         setBhajans(data);
         setLoading(false);
     }
@@ -92,7 +94,7 @@ export default function BhajansScreen() {
                             }}
                         >
                             <Text style={{ color: !selectedCategory ? "#fff" : "#000" }}>
-                                All ({bhajans.length})
+                                All ({allBhajans.length})
                             </Text>
                         </Pressable>
 

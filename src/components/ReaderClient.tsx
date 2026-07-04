@@ -10,6 +10,7 @@ import {
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { Colors } from "@/constants/theme";
+import YouTubePlayer from "./YouTubePlayer";
 
 export default function ReaderClient({ bhajan, paragraphs }: any) {
   const [index, setIndex] = useState(0);
@@ -168,6 +169,11 @@ export default function ReaderClient({ bhajan, paragraphs }: any) {
             ))}
           </ScrollView>
         </View>
+
+        {bhajan.mediaUrl ? (
+          <YouTubePlayer url={bhajan.mediaUrl} />
+        ) : null}
+
       </ScrollView>
 
       {/* FIXED BOTTOM NAV (NOW WORKS WITH SWIPE) */}
