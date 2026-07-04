@@ -4,18 +4,16 @@
     "slug": "bhajans-mobile",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/namaste.jpg",
+    "icon": "./assets/namaste2.png",
     "scheme": "bhajansmobile",
     "userInterfaceStyle": "automatic",
     "ios": {
-      "icon": "./assets/expo.icon"
+      "icon": "./assets/namaste2.png"
     },
     "android": {
       "adaptiveIcon": {
-        "backgroundColor": "#E6F4FE",
-        "foregroundImage": "./assets/images/android-icon-foreground.png",
-        "backgroundImage": "./assets/images/android-icon-background.png",
-        "monochromeImage": "./assets/images/android-icon-monochrome.png"
+        "foregroundImage": "./assets/namaste2.png",
+        "backgroundColor": "#F7D7EB"
       },
       "predictiveBackGestureEnabled": false,
       "package": "com.anu.bhajansmobile",
@@ -39,6 +37,12 @@
     "experiments": {
       "typedRoutes": true,
       "reactCompiler": true
+    },
+    "extra": {
+      "router": {},
+      "eas": {
+        "projectId": "4e5e3d4a-9ec5-434c-9e39-fd19ffab9a89"
+      }
     }
   }
 }
