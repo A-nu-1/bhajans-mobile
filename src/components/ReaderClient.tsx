@@ -1,32 +1,63 @@
+import { Colors } from "@/constants/theme";
+import { Ionicons } from "@expo/vector-icons";
 import { router } from "expo-router";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import {
-  View,
-  Text,
+  Dimensions,
+  Modal,
   Pressable,
   ScrollView,
-  Modal,
-  Dimensions,
+  Text,
+  View,
 } from "react-native";
-import { Ionicons } from "@expo/vector-icons";
-import { Colors } from "@/constants/theme";
 import YouTubePlayer from "./YouTubePlayer";
 
-export default function ReaderClient({ bhajan, paragraphs }: any) {
+export default function ReaderClient({ bhajan }: any) {
   const [index, setIndex] = useState(0);
   const [fontSize, setFontSize] = useState(16);
   const [showDesc, setShowDesc] = useState(false);
+  const [showLangMenu, setShowLangMenu] = useState(false);
+  const [selectedLanguageCode, setSelectedLanguageCode] = useState<string | null>(null);
 
   const { width } = Dimensions.get("window");
   const scrollRef = useRef<any>(null);
 
-  const total = paragraphs?.length || 0;
+  useEffect(() => {
+    const firstCode =
+      bhajan?.translations?.[0]?.language?.code ??
+      bhajan?.language ??
+      "kn";
 
-  // 👉 NEXT (infinite)
+    setSelectedLanguageCode(firstCode);
+    setIndex(0);
+  }, [bhajan?.id]);
+
+  const availableTranslations = Array.isArray(bhajan?.translations) ? bhajan.translations : [];
+
+  const selectedTranslation =
+    availableTranslations.find((translation: any) => translation?.language?.code === selectedLanguageCode) ??
+    availableTranslations[0] ??
+    null;
+
+  const currentTitle = selectedTranslation?.title ?? bhajan?.title ?? "";
+  const currentDescription = selectedTranslation?.description ?? bhajan?.description ?? null;
+  const currentMainText = selectedTranslation?.mainText ?? bhajan?.mainText ?? "";
+  const currentParagraphs = Array.isArray(selectedTranslation?.paragraphs)
+    ? selectedTranslation.paragraphs
+    : Array.isArray(bhajan?.paragraphs)
+      ? bhajan.paragraphs
+      : [];
+
+  const total = currentParagraphs.length || 0;
+  const selectedLanguageLabel =
+    selectedTranslation?.language?.name ||
+    selectedTranslation?.language?.code?.toUpperCase() ||
+    "Language";
+
   const goNext = () => {
     let newIndex = index + 1;
 
-    if (newIndex >= total) newIndex = 0; // loop
+    if (newIndex >= total) newIndex = 0;
 
     setIndex(newIndex);
 
@@ -36,11 +67,10 @@ export default function ReaderClient({ bhajan, paragraphs }: any) {
     });
   };
 
-  // 👉 PREV (infinite)
   const goPrev = () => {
     let newIndex = index - 1;
 
-    if (newIndex < 0) newIndex = total - 1; // loop
+    if (newIndex < 0) newIndex = total - 1;
 
     setIndex(newIndex);
 
@@ -48,12 +78,16 @@ export default function ReaderClient({ bhajan, paragraphs }: any) {
       x: newIndex * width,
       animated: true,
     });
+  };
+
+  const selectLanguage = (code: string) => {
+    setSelectedLanguageCode(code);
+    setShowLangMenu(false);
+    setIndex(0);
   };
 
   return (
     <View style={{ flex: 1, backgroundColor: "rgb(247, 215, 235)" }}>
-
-      {/* CONTENT */}
       <ScrollView
         contentContainerStyle={{
           padding: 12,
@@ -61,7 +95,6 @@ export default function ReaderClient({ bhajan, paragraphs }: any) {
           paddingBottom: 120,
         }}
       >
-        {/* TITLE */}
         <Text
           style={{
             fontSize: 28,
@@ -70,34 +103,95 @@ export default function ReaderClient({ bhajan, paragraphs }: any) {
             marginBottom: 12,
           }}
         >
-          {bhajan.title}
+          {currentTitle}
         </Text>
 
-        {/* TOP BAR */}
         <View
           style={{
             flexDirection: "row",
             justifyContent: "space-between",
             marginBottom: 12,
             alignItems: "center",
+            zIndex: 30,
           }}
         >
-          {bhajan.description && (
-            <Pressable onPress={() => setShowDesc(true)}>
-              <Ionicons
-                name="information-circle-outline"
-                size={22}
-                color={Colors.primary}
-              />
+          <View style={{ flexDirection: "row", alignItems: "center" }}>
+            {currentDescription ? (
+              <Pressable onPress={() => setShowDesc(true)} style={{ marginRight: 10 }}>
+                <Ionicons
+                  name="information-circle-outline"
+                  size={22}
+                  color={Colors.primary}
+                />
+              </Pressable>
+            ) : null}
+          </View>
+          <View>
+            <Pressable onPress={() => router.push("/(tabs)/BhajansScreen")}>
+              <Ionicons name="arrow-back" size={22} color={Colors.primary} />
             </Pressable>
-          )}
+          </View>
 
-          <Pressable onPress={() => router.push("/(tabs)/BhajansScreen")}>
-            <Ionicons name="arrow-back" size={22} color={Colors.primary} />
-          </Pressable>
+          <View style={{ flexDirection: "row", alignItems: "center", zIndex: 40 }}>
+            <View style={{ position: "relative", marginRight: 10, zIndex: 50 }}>
+              <Pressable
+                onPress={() => setShowLangMenu((value) => !value)}
+                style={{
+                  paddingHorizontal: 10,
+                  paddingVertical: 6,
+                  borderRadius: 999,
+                  backgroundColor: "rgba(255,255,255,0.7)",
+                }}
+              >
+                <Text style={{ color: Colors.primary, fontWeight: "600" }}>
+                  {selectedLanguageLabel}
+                </Text>
+              </Pressable>
 
-          <View style={{ flexDirection: "row", gap: 12 }}>
-            <Pressable onPress={() => setFontSize((s) => Math.max(14, s - 2))}>
+              {showLangMenu && availableTranslations.length > 0 ? (
+                <View
+                  style={{
+                    position: "absolute",
+                    top: 38,
+                    right: 0,
+                    minWidth: 140,
+                    backgroundColor: "white",
+                    borderRadius: 12,
+                    paddingVertical: 6,
+                    elevation: 12,
+                    zIndex: 60,
+                    shadowColor: "#000",
+                    shadowOpacity: 0.2,
+                    shadowRadius: 8,
+                    shadowOffset: { width: 0, height: 4 },
+                  }}
+                >
+                  {availableTranslations.map((translation: any) => {
+                    const code = translation?.language?.code;
+                    const label = translation?.language?.name || code?.toUpperCase() || "Language";
+                    const isSelected = code === selectedLanguageCode;
+
+                    return (
+                      <Pressable
+                        key={code ?? label}
+                        onPress={() => selectLanguage(code)}
+                        style={{
+                          paddingHorizontal: 12,
+                          paddingVertical: 8,
+                          backgroundColor: isSelected ? "rgba(250, 178, 233, 0.35)" : "transparent",
+                        }}
+                      >
+                        <Text style={{ color: Colors.primary, fontWeight: isSelected ? "700" : "500" }}>
+                          {label}
+                        </Text>
+                      </Pressable>
+                    );
+                  })}
+                </View>
+              ) : null}
+            </View>
+
+            <Pressable onPress={() => setFontSize((s) => Math.max(14, s - 2))} style={{ marginRight: 10 }}>
               <Text style={{ color: Colors.primary }}>-A</Text>
             </Pressable>
 
@@ -107,7 +201,6 @@ export default function ReaderClient({ bhajan, paragraphs }: any) {
           </View>
         </View>
 
-        {/* MAIN TEXT */}
         <View
           style={{
             backgroundColor: "rgb(249, 184, 224)",
@@ -123,11 +216,10 @@ export default function ReaderClient({ bhajan, paragraphs }: any) {
               lineHeight: fontSize * 1.8,
             }}
           >
-            {bhajan.mainText}
+            {currentMainText}
           </Text>
         </View>
 
-        {/* PARAGRAPHS SWIPE */}
         <View style={{ marginBottom: 20 }}>
           <ScrollView
             ref={scrollRef}
@@ -139,13 +231,11 @@ export default function ReaderClient({ bhajan, paragraphs }: any) {
             disableIntervalMomentum
             showsHorizontalScrollIndicator={false}
             onMomentumScrollEnd={(e) => {
-              const i = Math.round(
-                e.nativeEvent.contentOffset.x / width
-              );
+              const i = Math.round(e.nativeEvent.contentOffset.x / width);
               setIndex(i);
             }}
           >
-            {paragraphs?.map((p: any, i: number) => (
+            {currentParagraphs?.map((p: any, i: number) => (
               <View
                 key={i}
                 style={{
@@ -170,13 +260,9 @@ export default function ReaderClient({ bhajan, paragraphs }: any) {
           </ScrollView>
         </View>
 
-        {bhajan.mediaUrl ? (
-          <YouTubePlayer url={bhajan.mediaUrl} />
-        ) : null}
-
+        {bhajan.mediaUrl ? <YouTubePlayer url={bhajan.mediaUrl} /> : null}
       </ScrollView>
 
-      {/* FIXED BOTTOM NAV (NOW WORKS WITH SWIPE) */}
       <View
         style={{
           position: "absolute",
@@ -205,7 +291,6 @@ export default function ReaderClient({ bhajan, paragraphs }: any) {
         </Pressable>
       </View>
 
-      {/* DESCRIPTION MODAL */}
       <Modal visible={showDesc} animationType="slide">
         <ScrollView
           style={{ flex: 1, backgroundColor: "#f9ccf2" }}
@@ -216,7 +301,7 @@ export default function ReaderClient({ bhajan, paragraphs }: any) {
           </Text>
 
           <Text style={{ fontSize: 16, lineHeight: 26 }}>
-            {bhajan.description}
+            {currentDescription}
           </Text>
 
           <Pressable

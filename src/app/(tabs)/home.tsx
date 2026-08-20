@@ -41,7 +41,12 @@ export default function Home() {
             <Text style={styles.subtitle}>
                 Read • Sing • Devotion
             </Text>
-
+  <Pressable
+                onPress={() => {
+                    // Navigate to BhajansScreen
+                    router.push("/(tabs)/BhajansScreen");
+                }}
+            >
             <View style={styles.card}>
                 <Ionicons
                     name="musical-notes-outline"
@@ -49,24 +54,26 @@ export default function Home() {
                     color={Colors.primary}
                 />
 
-                <Text style={styles.count}>
-                    {count}
+                <Text style={{ fontSize: 32 , color: Colors.primary, fontFamily: 'cursive'  }}>
+                  ~*~<Text style={styles.count}>{count}</Text>~*~
                 </Text>
 
                 <Text style={styles.cardText}>
-                    Total Bhajans
+                    Bhajans in <Text style={{ fontSize: 24 , color: Colors.primary, fontFamily: 'cursive'  }}>Ashu's</Text> divine voice
                 </Text>
-            </View>
+
+                <Text style={styles.quote}>
+                        "Lets immerse in the divine melodies"
+                    </Text>
+            </View></Pressable>
             <Pressable
                 onPress={() => {
-                    // Navigate to BhajansScreen
+                    // Navigate to BhajansScreen 
                     router.push("/(tabs)/BhajansScreen");
                 }}
             >
                 <View style={styles.quoteCard}>
-                    <Text style={styles.quote}>
-                        "Lets immerse in the divine melodies"
-                    </Text>
+                    
                     <Ionicons
                         name="search-outline"
                         size={36}

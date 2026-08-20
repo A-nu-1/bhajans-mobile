@@ -1,7 +1,7 @@
+import { getBhajanById } from "@/services/bhajans";
 import { useLocalSearchParams } from "expo-router";
 import { useEffect, useState } from "react";
-import { View, Text } from "react-native";
-import { api } from "@/services/bhajans";
+import { Text, View } from "react-native";
 
 // import your reader component (adjust path if needed)
 import ReaderClient from "@/components/ReaderClient";
@@ -14,8 +14,8 @@ export default function BhajanScreen() {
   useEffect(() => {
     async function load() {
       try {
-        const res = await api.get(`/bhajans/${id}`);
-        setBhajan(res.data);
+        const data = await getBhajanById(id as string);
+        setBhajan(data);
       } catch (err) {
         console.log("error loading bhajan", err);
       }
@@ -32,5 +32,5 @@ export default function BhajanScreen() {
     );
   }
 
-  return <ReaderClient bhajan={bhajan} paragraphs={bhajan.paragraphs} />;
+  return <ReaderClient bhajan={bhajan} />;
 }
