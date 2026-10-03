@@ -17,31 +17,38 @@ export default function ReaderClient({ bhajan }: any) {
   const [fontSize, setFontSize] = useState(16);
   const [showDesc, setShowDesc] = useState(false);
   const [showLangMenu, setShowLangMenu] = useState(false);
-  const [selectedLanguageCode, setSelectedLanguageCode] = useState<string | null>(null);
+  const [selectedLanguageCode, setSelectedLanguageCode] = useState<
+    string | null
+  >(null);
 
   const { width } = Dimensions.get("window");
   const scrollRef = useRef<any>(null);
 
   useEffect(() => {
     const firstCode =
-      bhajan?.translations?.[0]?.language?.code ??
-      bhajan?.language ??
-      "kn";
+      bhajan?.translations?.[0]?.language?.code ?? bhajan?.language ?? "kn";
 
     setSelectedLanguageCode(firstCode);
     setIndex(0);
   }, [bhajan?.id]);
 
-  const availableTranslations = Array.isArray(bhajan?.translations) ? bhajan.translations : [];
+  const availableTranslations = Array.isArray(bhajan?.translations)
+    ? bhajan.translations
+    : [];
 
   const selectedTranslation =
-    availableTranslations.find((translation: any) => translation?.language?.code === selectedLanguageCode) ??
+    availableTranslations.find(
+      (translation: any) =>
+        translation?.language?.code === selectedLanguageCode,
+    ) ??
     availableTranslations[0] ??
     null;
 
   const currentTitle = selectedTranslation?.title ?? bhajan?.title ?? "";
-  const currentDescription = selectedTranslation?.description ?? bhajan?.description ?? null;
-  const currentMainText = selectedTranslation?.mainText ?? bhajan?.mainText ?? "";
+  const currentDescription =
+    selectedTranslation?.description ?? bhajan?.description ?? null;
+  const currentMainText =
+    selectedTranslation?.mainText ?? bhajan?.mainText ?? "";
   const currentParagraphs = Array.isArray(selectedTranslation?.paragraphs)
     ? selectedTranslation.paragraphs
     : Array.isArray(bhajan?.paragraphs)
@@ -53,6 +60,21 @@ export default function ReaderClient({ bhajan }: any) {
     selectedTranslation?.language?.name ||
     selectedTranslation?.language?.code?.toUpperCase() ||
     "Language";
+
+  useEffect(() => {
+    const englishTranslation = bhajan?.translations?.find(
+      (translation: any) => translation?.language?.code === "en",
+    );
+
+    const firstCode =
+      englishTranslation?.language?.code ??
+      bhajan?.translations?.[0]?.language?.code ??
+      bhajan?.language ??
+      "kn";
+
+    setSelectedLanguageCode(firstCode);
+    setIndex(0);
+  }, [bhajan?.id]);
 
   const goNext = () => {
     let newIndex = index + 1;
@@ -117,7 +139,10 @@ export default function ReaderClient({ bhajan }: any) {
         >
           <View style={{ flexDirection: "row", alignItems: "center" }}>
             {currentDescription ? (
-              <Pressable onPress={() => setShowDesc(true)} style={{ marginRight: 10 }}>
+              <Pressable
+                onPress={() => setShowDesc(true)}
+                style={{ marginRight: 10 }}
+              >
                 <Ionicons
                   name="information-circle-outline"
                   size={22}
@@ -132,7 +157,9 @@ export default function ReaderClient({ bhajan }: any) {
             </Pressable>
           </View>
 
-          <View style={{ flexDirection: "row", alignItems: "center", zIndex: 40 }}>
+          <View
+            style={{ flexDirection: "row", alignItems: "center", zIndex: 40 }}
+          >
             <View style={{ position: "relative", marginRight: 10, zIndex: 50 }}>
               <Pressable
                 onPress={() => setShowLangMenu((value) => !value)}
@@ -168,7 +195,10 @@ export default function ReaderClient({ bhajan }: any) {
                 >
                   {availableTranslations.map((translation: any) => {
                     const code = translation?.language?.code;
-                    const label = translation?.language?.name || code?.toUpperCase() || "Language";
+                    const label =
+                      translation?.language?.name ||
+                      code?.toUpperCase() ||
+                      "Language";
                     const isSelected = code === selectedLanguageCode;
 
                     return (
@@ -178,10 +208,17 @@ export default function ReaderClient({ bhajan }: any) {
                         style={{
                           paddingHorizontal: 12,
                           paddingVertical: 8,
-                          backgroundColor: isSelected ? "rgba(250, 178, 233, 0.35)" : "transparent",
+                          backgroundColor: isSelected
+                            ? "rgba(250, 178, 233, 0.35)"
+                            : "transparent",
                         }}
                       >
-                        <Text style={{ color: Colors.primary, fontWeight: isSelected ? "700" : "500" }}>
+                        <Text
+                          style={{
+                            color: Colors.primary,
+                            fontWeight: isSelected ? "700" : "500",
+                          }}
+                        >
                           {label}
                         </Text>
                       </Pressable>
@@ -191,7 +228,10 @@ export default function ReaderClient({ bhajan }: any) {
               ) : null}
             </View>
 
-            <Pressable onPress={() => setFontSize((s) => Math.max(14, s - 2))} style={{ marginRight: 10 }}>
+            <Pressable
+              onPress={() => setFontSize((s) => Math.max(14, s - 2))}
+              style={{ marginRight: 10 }}
+            >
               <Text style={{ color: Colors.primary }}>-A</Text>
             </Pressable>
 

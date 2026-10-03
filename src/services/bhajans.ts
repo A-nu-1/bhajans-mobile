@@ -96,7 +96,7 @@ export function normalizeBhajan(raw: any) {
     ...raw,
     id: raw?.id ?? "",
     title,
-    titleEnglish: raw?.titleEnglish ?? englishTranslation?.title ?? preferredTranslation?.title ?? title,
+    titleEnglish: raw?.titleEnglish ?? englishTranslation?.title ?? null,
     language: baseLanguageCode,
     description: raw?.description ?? preferredTranslation?.description ?? null,
     mediaUrl: raw?.mediaUrl ?? null,
