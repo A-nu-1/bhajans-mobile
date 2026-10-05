@@ -1,56 +1,297 @@
-# Welcome to your Expo app 👋
+# Bhajans Mobile — Android Devotional Lyrics App
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+A React Native / Expo mobile application created for my spiritual community to make devotional lyrics easy to access, search, read, and navigate during gatherings.
 
-## Get started
+This mobile app is the Android companion to the Bhajans web application.
 
-1. Install dependencies
+🌐 **Web App:**  
+https://bhajans-app-chi.vercel.app/
 
-   ```bash
-   npm install
-   ```
+💻 **Web Repository:**  
+https://github.com/A-nu-1/bhajans-app
 
-2. Start the app
+---
 
-   ```bash
-   npx expo start
-   ```
+## Why I Built This
 
-In the output, you'll find options to open the app in a
+In my spiritual community, many devotional songs are sung regularly.
 
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
+As the song collection grew, it became difficult to search through large files and quickly find the right lyrics during gatherings.
 
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
+I built Bhajans Mobile so users can carry the song library with them and access lyrics directly from their phones.
 
-## Get a fresh project
+The goal is simple:
 
-When you're ready, run:
+- find songs quickly
+- read lyrics clearly
+- navigate easily during gatherings
+- support multiple languages
+- reduce dependence on large document files
 
-```bash
-npm run reset-project
+---
+
+## Screenshots
+
+### Home & Song Search
+
+![Bhajans Home](./bhajansHome.png)
+
+### Structured Search and List
+
+![Bhajans Search](./bhajansList.png)
+
+### Reader and Youtube
+
+![Bhajans Reader](./bhajansReaderAndYoutube.png)
+
+---
+
+## Mobile Experience
+
+The app is designed around real-world mobile use.
+
+A typical flow is:
+
+```text
+Open App
+   ↓
+Search or Browse Categories
+   ↓
+Open Bhajan
+   ↓
+Read Structured Lyrics
+   ↓
+Move to Previous / Next Song
 ```
 
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
+The interface is kept simple so users can focus on the devotional gathering rather than the app itself.
 
-### Other setup steps
+---
 
-- To set up ESLint for linting, run `npx expo lint`, or follow our guide on ["Using ESLint and Prettier"](https://docs.expo.dev/guides/using-eslint/)
-- If you'd like to set up unit testing, follow our guide on ["Unit Testing with Jest"](https://docs.expo.dev/develop/unit-testing/)
-- Learn more about the TypeScript setup in this template in our guide on ["Using TypeScript"](https://docs.expo.dev/guides/typescript/)
+## Main Features
 
-## Learn more
+### Search
 
-To learn more about developing your project with Expo, look at the following resources:
+Users can quickly search the bhajan library instead of manually navigating long documents.
 
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
+### Categories
 
-## Join the community
+Songs can be organized into devotional categories such as:
 
-Join our community of developers creating universal apps.
+- Ganesha
+- Guru
+- Durga
+- Hanuman
+- Krishna
+- Lakshmi
+- and other categories
 
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+### Structured Reader
+
+Lyrics are displayed in a clean paragraph-based format.
+
+The reader supports:
+
+- clear verse separation
+- previous / next navigation
+- easy scrolling
+- mobile-friendly reading
+- multilingual lyrics
+
+### Favorites
+
+Frequently used songs can be saved for quick access.
+
+### Multilingual Content
+
+The application supports devotional lyrics across multiple languages and scripts.
+
+### Transliteration Support
+
+The wider Bhajans platform includes transliteration tools for converting text between supported scripts while preserving pronunciation.
+
+This is transliteration, not translation.
+
+---
+
+## Technology Stack
+
+### Mobile
+
+- React Native
+- Expo
+- Expo Router
+- TypeScript
+
+### Backend / Data
+
+The mobile app connects to the same Bhajans application data and APIs used by the wider project.
+
+### Development
+
+- Git
+- GitHub
+- Expo development tools
+
+---
+
+## Project Structure
+
+A typical structure includes:
+
+```text
+src/
+├── app/
+├── components/
+├── lib/
+├── constants/
+└── assets/
+```
+
+The application is structured around Expo Router for navigation.
+
+---
+
+## Running the App Locally
+
+### 1. Clone the repository
+
+```bash
+git clone https://github.com/A-nu-1/bhajans-mobile.git
+```
+
+### 2. Enter the project directory
+
+```bash
+cd bhajans-mobile
+```
+
+### 3. Install dependencies
+
+```bash
+npm install
+```
+
+### 4. Configure environment variables
+
+Create the required local environment configuration.
+
+Do not commit private credentials or `.env` values to GitHub.
+
+### 5. Start Expo
+
+```bash
+npx expo start
+```
+
+If using a development build:
+
+```bash
+npx expo start --dev-client
+```
+
+If Metro cache needs to be cleared:
+
+```bash
+npx expo start --dev-client --clear
+```
+
+---
+
+## Android Build
+
+The project can be built for Android using Expo Application Services (EAS).
+
+Example preview build:
+
+```bash
+eas build --platform android --profile preview
+```
+
+This can generate an Android build for testing without publishing to the Play Store.
+
+---
+
+## Related Web Application
+
+The Bhajans web application provides the same community-focused concept in a browser-based experience.
+
+### Live Web App
+
+https://bhajans-app-chi.vercel.app/
+
+### Web Repository
+
+https://github.com/A-nu-1/bhajans-app
+
+---
+
+## What This Project Demonstrates
+
+This project demonstrates hands-on experience with:
+
+- React Native development
+- Expo
+- Expo Router
+- mobile navigation
+- API integration
+- multilingual content
+- mobile UI design
+- shared web/mobile product thinking
+- Android build workflows
+- community-centered software design
+
+---
+
+## Engineering Focus
+
+The mobile application focuses on:
+
+- simple navigation
+- readable mobile layouts
+- fast song discovery
+- maintaining feature parity with the web experience where useful
+- reliable access to devotional content on Android devices
+
+---
+
+## Possible Future Enhancements
+
+Potential improvements include:
+
+- better offline access
+- downloadable song collections
+- improved favorites organization
+- event-specific song lists
+- enhanced font controls
+- more language options
+- better media integration
+- additional accessibility options
+
+---
+
+## Author
+
+**Anupama Rajendra**
+
+Software Engineer  
+**Java · SQL · Unix / Shell Scripting · Enterprise Integration · Full-Stack · Mobile**
+
+### Links
+
+**Portfolio**  
+https://A-nu-1.github.io/anupamaportfolio/
+
+**GitHub**  
+https://github.com/A-nu-1
+
+**Bhajans Web App**  
+https://bhajans-app-chi.vercel.app/
+
+---
+
+## Project Purpose
+
+Bhajans Mobile is a personal community project built to make devotional lyrics easier to access during real-world gatherings.
+
+It complements the web application by bringing the same song library and reading experience to Android devices. 🩷
