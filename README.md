@@ -34,15 +34,15 @@ The goal is simple:
 
 ### Home & Song Search
 
-![Bhajans Home](./bhajansHome.png)
+![Bhajans Home](./bhajansHome.jpeg)
 
 ### Structured Search and List
 
-![Bhajans Search](./bhajansList.png)
+![Bhajans Search](./bhajansList.jpeg)
 
 ### Reader and Youtube
 
-![Bhajans Reader](./bhajansReaderAndYoutube.png)
+![Bhajans Reader](./bhajansReaderAndYoutube.jpeg)
 
 ---
 
